@@ -1,0 +1,173 @@
+#include <iostream>
+
+using namespace std;
+ 
+
+//I modified previous assignment
+typedef struct Node {
+	double data;
+	struct Node* next;
+	struct Node* prev;
+};
+
+class DoubleLinkedList {
+private:
+	Node* head;
+	Node* tail;
+public:
+	DoubleLinkedList() {
+		head = nullptr;
+		tail = nullptr;
+	}
+
+	//struct Node* head = NULL;
+	void insert(int newdata) {
+		Node* newnode = new Node();
+		newnode->data = newdata;
+		newnode->prev = nullptr;
+		newnode->next = head;
+		if (head != nullptr) {
+			head->prev = newnode;
+			head = newnode;
+			return;
+		}
+		head = newnode;
+		tail = newnode;
+	}
+
+	void displayr() {
+		struct Node* ptr;
+		ptr = head;
+		while (ptr != NULL) {
+			cout << ptr->data << " ";
+			ptr = ptr->next;
+		}
+	}
+	void display() {
+		struct Node* ptr;
+		ptr = tail;
+		while (ptr != NULL) {
+			if (ptr->prev != nullptr) {
+				cout << ptr->data << " * ";
+			}
+			else if (ptr->prev == nullptr) {
+				cout << ptr->data << "";
+			}
+			
+			ptr = ptr->prev;
+		}
+	}
+
+
+	double operator [](int x)
+	{
+		int y = 0;
+		for (Node* temp = tail; temp != nullptr; temp = temp->prev) {
+			y++;
+			if (temp == NULL || temp->data == NULL ) {
+				cout << "no index " << y;
+				return 0;
+			}
+			if (x+1 == y) {
+				return temp->data;
+			}
+			
+		}
+
+	}
+
+
+
+	void operator + (double x)
+	{
+		insert(x);
+	
+	}
+
+
+	void deleteValue(double data) {
+		for (Node* temp = head; temp != nullptr; temp = temp->next) {
+			if (temp->data == data) {
+				if (temp->prev == nullptr) { //if first
+					head = temp->next;
+				}
+				else
+					temp->prev->next = temp->next;
+				
+				
+				if (temp->next == nullptr) { // if last
+					tail = tail->prev;
+				}
+
+
+				else
+					temp->next->prev = temp->prev;
+
+				delete temp;
+				return;
+			}
+		}
+	}
+};
+
+
+int main() {
+	DoubleLinkedList list;
+	DoubleLinkedList list1;
+	int x = 0, y = 0;
+	//	list + 2;
+	//	list + 3;
+	//	list + 4;
+	//	cout << list[0] << endl;
+	//	cout << list[1] << endl;
+	//	cout << list[2] << endl;
+		//cout << list[6] << endl;
+	cout << "Please input your number: ";
+	cin >> x;
+	for (int i = 1; i <= x; ++i) {
+		if (x % i == 0) {
+			list1 + i;
+		}
+	}
+	if (list1[0] == 1 && list1[1] == x) {
+		cout << "prime";
+		return 0;
+	}
+	else {
+		cout << "not prime \n ";
+	}
+	/// <summary>
+
+	for (int i = 0; i <= x+1; i++) {
+		if (x % 2 == 0) {
+			list + 2;
+			x= x / 2;
+		}
+		else {
+			for (int i = 3; i <= x; i++) {
+				while (x % i == 0) {
+					list + i;
+					x = x / i;
+				}
+			}
+		}
+	}
+
+	list.display();
+
+	return 0;
+}
+/*Using the Doubly linked list class that you created in Week 12, add the following:
+1. An operator overload for the [] operator that will allow the programmer to access a nodes value by 0 based index.  
+For example:
+DoublyLinkedList l
+...
+cout << l[0] << endl;
+2. An operator overload for the + operator that will add a value to the end of the linked list
+
+Use this class to create a program that will determine if a number is prime or not. 
+If the number is not prime, it should display the prime factorization of the number.  For example:
+Input Number:   840
+Prime Factorization:
+2 * 2 * 2 * 3 * 5 * 7
+*/
